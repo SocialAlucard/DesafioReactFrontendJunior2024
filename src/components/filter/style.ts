@@ -10,6 +10,7 @@ export const DivFilter = styled.div`
     justify-content: space-between;
     border-top: 1px solid var(--color-border); 
     width: 100%;
+    
     div{
         display: flex;
         flex-direction: row;

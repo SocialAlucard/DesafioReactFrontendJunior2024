@@ -8,14 +8,14 @@ import { useContext } from "react";
 import { UserContext } from "../../providers/UserContext";
 
 export const ToDoList = () =>{
-    const {listToDo, markDone, deleteTask} = useContext(UserContext)
+    const {listToDo, markDone, deleteTask, isOpen, openModal} = useContext(UserContext)
     return(
         <>
-        <UlListCreations>
+        <UlListCreations className={(listToDo.length > 0 && isOpen) ? "show" : undefined}>
             {listToDo.map((list) =>(
             <li key={list.id} className={list.isDone ? "task" : undefined}>
                 <CheckButton onClick={()=> markDone(list.id)}><VscCheck /></CheckButton>
-                <p>{list.title}</p>
+                <p onDoubleClick={() => openModal(list)}>{list.title}</p>
                 <DeleteButton onClick={()=> deleteTask(list.id)}><VscChromeClose /></DeleteButton>
             </li>
             ))}

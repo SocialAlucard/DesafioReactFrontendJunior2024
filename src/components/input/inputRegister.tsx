@@ -11,7 +11,7 @@ import { UserContext } from "../../providers/UserContext";
 export const InputRegister = () =>{
     const {register, handleSubmit} = useForm()
     const [inputValue, setInputValue] = useState<string>("")
-    const {addToDo} = useContext(UserContext)
+    const {addToDo, listToDo, setIsOpen, isOpen} = useContext(UserContext)
     const handlerClick = () => {
         addToDo(inputValue);
         setInputValue("")
@@ -23,9 +23,9 @@ export const InputRegister = () =>{
     }
     return(
         <> 
-            <ContainerMain>
+            <ContainerMain className={listToDo.length>0?"apear":undefined}>
                 <ContainerInput>
-                    <OpenButton><TfiAngleDown /></OpenButton>
+                    <OpenButton className={listToDo.length>0?"open":undefined} onClick={() => setIsOpen(!isOpen)}><TfiAngleDown /></OpenButton>
                     <InputStyle type="text" placeholder="What needs to be done?" value={inputValue} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)} onKeyPress={handlerKeyPress}/>
                 </ContainerInput>
                 <ToDoList/>

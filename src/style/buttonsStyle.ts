@@ -45,8 +45,12 @@ export const DeleteButton = styled.button`
 export const ButtonFilter = styled.button`
     border: none;
     background-color:  transparent;
+    border: 2px solid transparent;
     &:hover{
-        border: 2px solid var(--color-border);
+        border-color: var(--color-border);
         border-radius: 2px;
+    }
+    &.active{
+        border-color: var(--color-border);
     }
 `

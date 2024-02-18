@@ -8,7 +8,7 @@ export const ContainerMain = styled.div`
     border: 1px solid var(--color-border);
     position: relative;
     box-shadow: 0px 2px #00000010;
-    &::before{
+    &.apear::before{
         content: "";
         width: 490px;
         background-color: var(--color-buttom-border);
@@ -21,7 +21,7 @@ export const ContainerMain = styled.div`
         transform: translateX(-50%);
         box-shadow: 0px 2px #00000010;
     }
-    &::after{
+    &apear::after{
         content: "";
         width: 480px;
         background-color: var(--color-buttom-border);
@@ -34,13 +34,17 @@ export const ContainerMain = styled.div`
         transform: translateX(+50%);
         box-shadow: 0px 2px #00000010;
     }
+    
 `
 
 export const ContainerInput = styled.div`
     display: flex;
-    justify-content: row;;
+    justify-content: row;
     width: 100%;
     border-bottom: 1px solid var(--color-border);
+    >.open{
+        color: black;
+    }
 `   
 
 export const InputStyle = styled.input`

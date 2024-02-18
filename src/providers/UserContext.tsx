@@ -15,6 +15,15 @@ interface IUserContext {
   filterActive: () => void;
   filterComplete: () => void;
   filterAll: () => void;
+  clearComplete: () => void;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  activeType: string;
+  modalIsOpen: boolean;
+  openModal: (task: IListToDo) => void;
+  closeModal: () => void;
+  editTask: (id: string, newTitle: string) => void;
+  targetEdit: IListToDo | null
 }
 
 interface IListToDo {
@@ -29,6 +38,10 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
   const [listToDo, setListToDo] = useState<IListToDo[]>([]);
   const [countToDo, setCountToDo] = useState<number>(0);
   const [fullToDoList, setFullToDoList] = useState<IListToDo[]>([]);
+  const [isOpen, setIsOpen] = useState<boolean>(listToDo.length > 0)
+  const [activeType, setActiveType] = useState<string>("all")
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false)
+  const [targetEdit, setTargetEdit] = useState<IListToDo|null>(null)
 
   useEffect(() => {
     const listString = localStorage.getItem("@LIST");
@@ -37,7 +50,7 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
     if (listString) {
       const list = JSON.parse(listString);
       setListToDo(list);
-      setFullToDoList(list); // Definir a lista completa ao inicializar
+      setFullToDoList(list); 
     } else {
       getList();
     }
@@ -45,6 +58,7 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
 
   useEffect(() => {
     countTask();
+    setIsOpen(listToDo.length > 0)
   }, [listToDo]);
 
   useEffect(() => {
@@ -95,18 +109,46 @@ const addToDo = (text: string) => {
   };
 
   const filterActive = () => {
-    const updateList = listToDo.filter((todo) => !todo.isDone);
+    const updateList = fullToDoList.filter((todo) => !todo.isDone);
     setListToDo(updateList);
+    setActiveType("active")
   };
 
   const filterComplete = () => {
-    const updateList = listToDo.filter((todo) => todo.isDone);
+    const updateList = fullToDoList.filter((todo) => todo.isDone);
     setListToDo(updateList);
+    setActiveType("complete")
   };
 
     const filterAll = () => {
-    setListToDo(fullToDoList); // Mostrar a lista completa
+    setListToDo(fullToDoList);
+    setActiveType("all")
   };
+
+  const clearComplete = () =>{
+    const updateList = fullToDoList.filter((todo)=>!todo.isDone)
+    setListToDo(updateList)
+    setFullToDoList(updateList)
+  }
+
+  const openModal = (task:IListToDo) =>{
+    setTargetEdit(task)
+    setModalIsOpen(true)
+  }
+
+  const closeModal = () =>{
+    setTargetEdit(null)
+    setModalIsOpen(false)
+  }
+
+  const editTask = (id: string, newTitle: string) => {
+    const updatedList = fullToDoList.map((todo) =>
+      todo.id === id ? { ...todo, title: newTitle } : todo
+    );
+    setModalIsOpen(false)
+    setFullToDoList(updatedList);
+    setListToDo(updatedList);
+  }
 
   return (
     <UserContext.Provider
@@ -119,6 +161,15 @@ const addToDo = (text: string) => {
         filterActive,
         filterComplete,
         filterAll,
+        clearComplete,
+        isOpen,
+        setIsOpen,
+        activeType,
+        modalIsOpen,
+        openModal,
+        closeModal,
+        editTask,
+        targetEdit
       }}
     >
       {children}

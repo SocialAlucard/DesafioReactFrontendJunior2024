@@ -1,10 +1,15 @@
 import styled from "styled-components";
 
 export const UlListCreations = styled.ul`
-    display: flex;  
+    display: none;  
     flex-direction: column;
     width: 100%;
     background-color: var(--color-white);
+
+    &.show {
+        display: flex;
+    }
+
     li{
         display: flex;
         flex-direction: row;

@@ -24,4 +24,11 @@ export const FooterTypograpy = styled.span`
     font-size: 14px;
     color: var(--color-footer);
     font-weight: bold;
-`   
+`
+export const TitleModal = styled.h3`
+    font-family: 'Montserrat', sans-serif;
+    text-transform: capitalize;
+    font-size: 24px;
+    color: var(--color-big-text);
+    font-weight: bold;
+`
